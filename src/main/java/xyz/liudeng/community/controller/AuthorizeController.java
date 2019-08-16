@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import sun.misc.Request;
 import xyz.liudeng.community.dto.AccessTokendDTO;
 import xyz.liudeng.community.dto.GithubUser;
+import xyz.liudeng.community.mapper.UserMapper;
+import xyz.liudeng.community.model.User;
 import xyz.liudeng.community.provider.GithubProvider;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
 
 /**
  * @author liudeng
@@ -30,6 +33,11 @@ public class AuthorizeController {
     @Value("${github.redirect.uri}")
     private String redirectUri;
 
+    @Autowired
+    private UserMapper userMapper;
+
+
+
     @GetMapping("/callback")
     public String callback(@RequestParam(name="code")  String code,
                            @RequestParam(name="state") String state,
@@ -41,10 +49,17 @@ public class AuthorizeController {
         accessTokendDTO.setClient_id(clientId);
         accessTokendDTO.setClient_secret(clientSecret);
         String accessToken = githubProvider.getAccessToken(accessTokendDTO);
-        GithubUser user = githubProvider.getuser(accessToken);
-        if (user!=null){
+        GithubUser githubUser = githubProvider.getuser(accessToken);
+        if (githubUser!=null){
+            User user= new User();
+            user.setToken(UUID.randomUUID().toString());
+            user.setName(githubUser.getName());
+            user.setAccountId(String.valueOf(githubUser.getId()));
+            user.setGmtCreate(System.currentTimeMillis());
+            user.setGmtModified(user.getGmtCreate());
+            userMapper.insert(user);
             //登录成功    写cookie和session
-            request.getSession().setAttribute("user",user);
+            request.getSession().setAttribute("user",githubUser);
             return "redirect:/";
         }else{
             //登录失败  重新登陆
