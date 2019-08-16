@@ -12,7 +12,9 @@ import xyz.liudeng.community.mapper.UserMapper;
 import xyz.liudeng.community.model.User;
 import xyz.liudeng.community.provider.GithubProvider;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 /**
@@ -35,14 +37,15 @@ public class AuthorizeController {
 
     @Autowired
     private UserMapper userMapper;
-
+    private String token;
 
 
     @GetMapping("/callback")
-    public String callback(@RequestParam(name="code")  String code,
-                           @RequestParam(name="state") String state,
-                           HttpServletRequest request){
-        AccessTokendDTO accessTokendDTO=new AccessTokendDTO();
+    public String callback(@RequestParam(name = "code") String code,
+                           @RequestParam(name = "state") String state,
+                           HttpServletRequest request,
+                           HttpServletResponse response) {
+        AccessTokendDTO accessTokendDTO = new AccessTokendDTO();
         accessTokendDTO.setRedirect_uri(redirectUri);
         accessTokendDTO.setCode(code);
         accessTokendDTO.setState(state);
@@ -50,18 +53,18 @@ public class AuthorizeController {
         accessTokendDTO.setClient_secret(clientSecret);
         String accessToken = githubProvider.getAccessToken(accessTokendDTO);
         GithubUser githubUser = githubProvider.getuser(accessToken);
-        if (githubUser!=null){
-            User user= new User();
-            user.setToken(UUID.randomUUID().toString());
+        if (githubUser != null) {
+            User user = new User();
+            String token = UUID.randomUUID().toString();
+            user.setToken(token);
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             userMapper.insert(user);
-            //登录成功    写cookie和session
-            request.getSession().setAttribute("user",githubUser);
+            response.addCookie(new Cookie("token", token));
             return "redirect:/";
-        }else{
+        } else {
             //登录失败  重新登陆
             return "redirect:/";
         }
