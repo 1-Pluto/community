@@ -9,8 +9,8 @@ import xyz.liudeng.community.model.Question;
  * @date 2019 -08-16-23:01
  */
 @Mapper
-public interface QuesstionMapper {
+public interface QuestionMapper {
 
-    @Insert("insert into question (title,description,gmt_create,gmt_modified,creater,tag) values (#{title},#{description},#{gmtCreate},#{gmtModified},#{creater},#{tag})")
+    @Insert("insert into question (title,description,gmt_create,gmt_modified,creator,tag) values (#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{tag})")
     void create(Question question);
 }
