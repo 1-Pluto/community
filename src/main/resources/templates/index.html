@@ -6,13 +6,13 @@
 
     <script src="webjars/jquery/3.4.1/jquery.min.js"></script>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/community.css">
     <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/bootstrap-theme .min.css">
 
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-    <script src="js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js" type="application/ecmascript"></script>
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -35,6 +35,11 @@
                 <li th:if="${session.user!=null}">
                     <a href="/publish">发布</a>
                 </li>
+                <li>
+                    <img class="media-object img-circle"
+                         th:src="${session.user.getAvatarUrl()}"
+                         width="30px" height="30px" style="margin-top: 10px">
+                </li>
                 <li class="dropdown" th:if="${session.user!=null}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false" th:text="${session.user.getName()}"><span class="caret"></span></a>
@@ -55,17 +60,24 @@
 <div class="container-fluid main thumbnail">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-            <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span> 发现</h2>
+            <h2>&nbsp;&nbsp;<span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp;&nbsp;发现</h2>
             <hr>
-            <div class="media">
-                <div class="media-left" style="width: 50px">
+            <div class="media" th:each="question : ${questions}">
+                <div class="pull-left">
                     <a href="#">
-                        <img class="media-object" src="https://avatars1.githubusercontent.com/u/51082850?v=4" style="width: 30px;height:30px">
+                        <img class="media-object img-rounded"
+                             th:src="${question.user.avatarUrl}"
+                             width="65px" height="65px">
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading">怎么快速学会 Spring Boot 开发</h4>
-                    学习啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊
+                    <h4 class="media-heading" th:text="${question.title}"></h4>
+                    <span th:text="${question.description}"></span><br>
+                    <span class="text-desc" style="font-size: 12px;font-weight: normal;color: #999">
+                        <span th:text="${question.commentCount}"></span>个回复·
+                        <span th:text="${question.viewCount}"></span>次游览·
+                        <span th:text="${#dates.format(question.getGmtCreate(),'yyyy-MM-dd HH:mm')}"></span>
+                    </span>
                 </div>
             </div>
         </div>

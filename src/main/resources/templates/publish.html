@@ -20,7 +20,7 @@
                     data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">星辰大海</span>
             </button>
-            <a class="navbar-brand" href="#">星辰大海</a>
+            <a class="navbar-brand" href="/">星辰大海</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <form class="navbar-form navbar-left">
@@ -32,6 +32,10 @@
             <ul class="nav navbar-nav navbar-right">
                 <li th:if="${session.user!=null}">
                     <a href="/publish">发布</a>
+                <li>
+                    <img class="media-object img-circle"
+                         th:src="${session.user.getAvatarUrl()}"
+                         width="30px" height="30px" style="margin-top: 10px">
                 </li>
                 <li class="dropdown" th:if="${session.user!=null}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -53,31 +57,35 @@
 <div class="container-fluid main thumbnail">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-
             <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>提问</h2>
             <hr>
             <form action="/publish" method="post">
                 <div class="form-group">
                     <label for="title" style="font-weight:bold;">问题标题(简单扼要)：</label>
-                    <input type="text" class="form-control" id="title" th:value="*{title}" name="title" placeholder="问题标题...">
+                    <input type="text" class="form-control" id="title" th:value="*{title}" name="title"
+                           placeholder="问题标题...">
                 </div>
                 <div class="form-group">
                     <label for="description" style="font-weight:bold;">问题补充(必填，请参照右方提示：)</label>
-                    <textarea name="description" id="description" th:value="*{description}"  class="form-control" cols="30" rows="10"></textarea>
+                    <textarea name="description" id="description" th:text="*{description}" class="form-control"
+                              cols="30" rows="10"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="tag" style="font-weight:bold;">添加标签：</label>
-                    <input type="text" class="form-control" th:value="*{tag}" id="tag" name="tag" placeholder="输入标签，以逗号分隔">
+                    <input type="text" class="form-control" th:value="*{tag}" id="tag" name="tag"
+                           placeholder="输入标签，以逗号分隔">
                 </div>
                 <div class="container-fkuid">
                     <div class="row">
-                        <div class="alert alert-danger col-lg-9 col-md-12 col-sm-12 col-xs-12" th:text="${error}" th:if="${error!=null}"></div>
+                        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                        <div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12"  th:text="${error}"
+                             th:if="${error!=null}"></div></div>
                         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-                            <button type="submit" class="btn btn-success btn-publish">发布
+                            <button type="submit" class="btn btn-success btn-publish" style="width: 100%;height:51px">发布
                             </button>
                         </div>
-
                     </div>
+
                 </div>
 
             </form>
