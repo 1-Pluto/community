@@ -1,9 +1,9 @@
-/* 懒人图库 搜集整理 www.lanrentuku.com */
+
 
 body {margin: 0;}
 
 .notfound {
-  background-image: url('../images/astronauta.jpg'), url('../images/stars404.png');
+  background-image: url('../img/astronauta.jpg'), url('../img/stars404.png');
   background-position: right top, center center;
   background-repeat: no-repeat, repeat;
   background-size: cover, auto;
@@ -21,7 +21,7 @@ body {margin: 0;}
   font-family: 'Source Sans Pro', sans-serif;
 }
 .notfound .wrapper .big {
-  font-size: 74px;
+  font-size: 40px;
   font-weight: 700;
   line-height: 68px;
   margin-bottom: 48px;
