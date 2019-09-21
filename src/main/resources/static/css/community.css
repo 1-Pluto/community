@@ -1,10 +1,14 @@
 body {
     background-color: #efefef;
+    font-family: 楷体;
+}
+.zzzzzz{
+    display: block;
+    font-size: 16px;
 }
 
-
 .main {
-    background-color: white;
+    background:url(../img/bj.jpg);
     margin: 30px;
 }
 
@@ -14,6 +18,120 @@ body {
 }
 
 .community-menu {
-    color: #999;
     font-size: 13px;
 }
+.one{
+    padding-top: 19px;
+    padding-left: 10px;
+}
+.two{
+    font-size: 40px;
+}
+.three {
+    padding-top: 12px;
+}
+.four{
+    font-size: 22px;
+}
+.comment{
+    margin: 10px 20px;
+}
+.five{
+    margin-left: 97%;
+}
+.comment-sp{
+    margin-top:0
+}
+.menu{
+    margin-top: 20px;
+    color: #999;
+    font-size: 17px;
+}
+.menu .icon{
+     margin-right: 10px;
+     cursor: pointer;
+ }
+
+.menu .active{
+    color: #499ef3;
+}
+
+.menu .icon:hover{
+    color: #499ef3;
+}
+
+.comments{
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+.sub-comments{
+    border-radius: 20px;
+    margin-top: 10px;
+    border: 1px solid #eee;
+    padding-top: 15px;
+    margin-bottom: 15px;
+}
+.sub-comments .btn{
+    margin: 10px 0;
+}
+.zxc{
+    width: 40px;
+    height:40px;
+}
+.menu .comment-icon {
+
+    margin-right: 10px;
+    cursor: pointer;
+}
+.menu .comment-icon:hover{
+    color: #499ef3;
+}
+.menu .comment-icon{
+    color: #499ef3;
+}
+.question-tag{
+margin-right: 5px;
+}
+.question-related{
+    line-height: 30px;
+    font-size: 20px;
+    margin-left: 0;
+    list-style: none;
+    padding-left: 0px;
+}
+.publish-tag-tab{
+    display: none;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+.publish-tag-tab .label-info{
+    margin:5px 5px;
+    white-space: normal;
+    display: inline-block;
+}
+.publish-tag-tab .tab-pane{
+    margin-top: 10px;
+    font-size: 18px;
+]}
+
+
+#web_bg{
+    position:fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    height:100%;
+    min-width: 1000px;
+    z-index:-10;
+    zoom: 1;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    background-position: center 0;
+}
+
+.bjtm{
+    background-color:#2A2B56;}

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import xyz.liudeng.community.dto.AccessTokendDTO;
 import xyz.liudeng.community.dto.GithubUser;
-import xyz.liudeng.community.mapper.UserMapper;
 import xyz.liudeng.community.model.User;
 import xyz.liudeng.community.provider.GithubProvider;
 import xyz.liudeng.community.service.UserService;

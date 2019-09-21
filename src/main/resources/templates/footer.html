@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <body>
+        <div th:fragment="foot" style="font-size: 14px;cursor: pointer;color: #fff;margin-bottom: 10px;text-align: center">
+            <span id="showtime"></span>
+            <!-- 网站苟活 -->
+            <script language="javascript">
+                function show_date_time(){
+                    window.setTimeout("show_date_time()", 1000);
+                    BirthDay=new Date("09/21/2019 00:00:00");//这个日期是可以修改的  
+                    today=new Date();
+                    timeold=(today.getTime()-BirthDay.getTime());
+                    sectimeold=timeold/1000
+                    secondsold=Math.floor(sectimeold);
+                    msPerDay=24*60*60*1000
+                    e_daysold=timeold/msPerDay
+                    daysold=Math.floor(e_daysold);
+                    e_hrsold=(e_daysold-daysold)*24;
+                    hrsold=Math.floor(e_hrsold);
+                    e_minsold=(e_hrsold-hrsold)*60;
+                    minsold=Math.floor((e_hrsold-hrsold)*60);
+                    seconds=Math.floor((e_minsold-minsold)*60);
+                    showtime.innerHTML="本站已苟活于世："+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+                }
+                show_date_time();
+            </script> 
+            <br>
+            Copyright © 2019 · 京ICP备19026896号-1 · 没人赞助 · All Rights Reserved Powered By LD
+        </div>
+    </body>
+</html>

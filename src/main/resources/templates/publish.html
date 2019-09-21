@@ -3,47 +3,100 @@
 <head>
     <title>发布--星辰大海</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/community.css">
+    <link rel="stylesheet" href="/fwb/css/editormd.css"/>
     <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
-    <link rel="stylesheet" href="/css/bootstrap-theme .min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <script src="/fwb/editormd.min.js"></script>
 
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="/js/bootstrap.min.js" type="application/ecmascript"></script>
+    <script src="../js/community.js" type="application/ecmascript"></script>
 </head>
 <body>
-
+<div class="wrapper">
+    <!--背景图片-->
+    <div id="web_bg" style="background-image: url(/img/bj.jpg);"></div>
 <!-- 导航栏引入-->
 <div th:insert="~{navigation :: nav}"></div>
 
 <div class="container-fluid main thumbnail">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>提问</h2>
+            <h3 style="margin-top:5px;margin-bottom: -10px; font-size: 25px;color: #fff;">&nbsp;<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;提问</h3>
             <hr>
             <form action="/publish" method="post">
                 <input type="hidden" name="id" th:value="${id}">
                 <div class="form-group">
-                    <label for="title" style="font-weight:bold;">问题标题(简单扼要)：</label>
+                    <label for="title" style="font-weight:bold;color: #fff; font-size: 20px">&nbsp;问题标题(简单扼要)：</label>
                     <input type="text" class="form-control" id="title" th:value="*{title}" name="title"
-                           placeholder="问题标题...">
+                           placeholder="问题标题..."
+                           autocomplete="off">
                 </div>
-                <div class="form-group">
-                    <label for="description" style="font-weight:bold;">问题补充(必填，请参照右方提示：)</label>
+                <div class="form-group" id="publish-editor">
+                    <label for="description" style="display:none;">问题补充(必填，请参照右方提示：)</label>
                     <textarea name="description" id="description" th:text="*{description}" class="form-control"
+                              style="display:none;"
                               cols="30" rows="10"></textarea>
                 </div>
+                <script type="text/javascript">
+                    $(function () {
+                        var editor = editormd("publish-editor", {
+                            width: "100%",
+                            height: "400px",
+                            path: "/fwb/lib/",
+                            delay: 0,
+                            watch: false,
+                            placeholder: "请输入问题描述...",
+                            emoji: true,
+                            imageUpload    : true,
+                            imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                            imageUploadURL : "/file/upload",
+                        });
+                    });
+                </script>
+
                 <div class="form-group">
-                    <label for="tag" style="font-weight:bold;">添加标签：</label>
+                    <label for="tag" style="font-weight:bold;color: #fff;font-size: 20px">添加标签：</label>
                     <input type="text" class="form-control" th:value="*{tag}" id="tag" name="tag"
-                           placeholder="输入标签，以逗号分隔">
+                           autocomplete="off"
+                           placeholder="输入标签，以逗号分隔"
+                           onclick="showSelectTag()">
+                    <div id="select-tag" class="publish-tag-tab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" th:each="selectCategory,selectCategoryStat: ${tags}"
+                                th:class="${selectCategoryStat.first ? 'active':''}">
+                                <a th:href="${'#'+selectCategory.categoryName}" aria-controls="home" role="tab"
+                                   data-toggle="tab" th:text="${selectCategory.categoryName}"></a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div role="tabpanel" th:id="${selectCategory.categoryName}"
+                                 th:each="selectCategory : ${tags}"
+                                 th:class="${selectCategoryStat.first ? 'active tab-pane':'tab-pane'}">
+                                <span>
+                                    <span class="label label-info" th:each="selectTag: ${selectCategory.tags}">
+                                    <span class="glyphicon glyphicon-tags" onclick="selectTag(this)"
+                                          th:data-tag="${selectTag}"
+                                          th:text="'&nbsp;'+${selectTag}"></span>
+                                </span>
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                    </div>
                 </div>
                 <div class="container-fkuid">
                     <div class="row">
                         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-                        <div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12"  th:text="${error}"
-                             th:if="${error!=null}"></div></div>
+                            <div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${error}"
+                                 th:if="${error!=null}"></div>
+                        </div>
                         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                             <button type="submit" class="btn btn-success btn-publish" style="width: 100%;height:51px">发布
                             </button>
@@ -54,14 +107,25 @@
 
             </form>
         </div>
-        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            <h3 style="font-weight:bold;">问题发起指南</h3>
-            • 问题标题: 请用精简的语言描述您发布的问题，不超过25字 <br>
-            • 问题补充: 详细补充您的问题内容，并确保问题描述清晰直观, 并提供一些相关的资料<br>
-            • 选择标签: 选择一个或者多个合适的标签，用逗号隔开，每个标签不超过10个字<br>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12"  style="border-left:1px solid #FFFFFF;">
+            <h3 style="font-weight:bold;color: #fff;">问题发起指南</h3>
+            <p  style="color: #fff;">• 问题标题: 请用精简的语言描述您发布的问题，不超过25字 </p><br>
+            <p  style="color: #fff;">• 问题补充: 详细补充您的问题内容，并确保问题描述清晰直观, 并提供一些相关的资料</p><br>
+            <p  style="color: #fff;">• 选择标签: 选择一个或者多个合适的标签，用逗号隔开，每个标签不超过10个字</p><br>
+            <p  style="color: #fff;">• Java代码: 使用 ```java，``` 隔开 示例：</p><br>
+            <p  style="color: #fff;">```java</p><br>
+            <p  style="color: #fff;"> public class HelloWorld {</p><br>
+            <p  style="color: #fff;">&nbsp;&nbsp;&nbsp;public static void main(String[] args) {</p><br>
+            <p  style="color: #fff;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ystem.out.println("Hello World");</p><br>
+            <p  style="color: #fff;">&nbsp;&nbsp;&nbsp;}</p><br>
+            <p  style="color: #fff;">}</p><br>
+            <p  style="color: #fff;">```</p><br>
+
 
         </div>
     </div>
+</div>
+    <div th:insert="~{footer :: foot}"></div>
 </div>
 </body>
 </html>
