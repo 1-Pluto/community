@@ -70,7 +70,7 @@ function collapseComments(e) {
             //标记二级评论状态
             e.setAttribute("data-collapse", "in");
             e.classList.add("active")
-        } else {X
+        } else {
             $.getJSON("/comment/" + id, function (data) {
                 $.each(data.data.reverse(), function (index, comment) {
                     var mediaLeftElement = $("<div/>", {
